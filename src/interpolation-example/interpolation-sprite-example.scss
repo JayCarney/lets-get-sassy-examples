@@ -21,3 +21,45 @@ $sprite-names: 'mario', 'luigi', 'peach', 'toad';
 
 
 
+@mixin icon-sprite($sprite-index, $sprite-image, $sprite-size: 24px) {
+  width: $sprite-size;
+  height: $sprite-size;
+  background-image: $sprite-image;
+  background-size: $sprite-size $sprite-size;
+  background-repeat: no-repeat;
+  background-position: $sprite-size * $sprite-index 0;
+}
+
+$mario-sprite-image: url(/images/icons/mario-sprite.png);
+$mario-sprite-names: 'mario', 'luigi', 'peach', 'toad';
+
+@for $i from 0 to length($mario-sprite-names) {
+  .icon-sprite-#{nth($mario-sprite-names, $i + 1)} {
+    @include icon-sprite($i, $mario-sprite-image);
+  }
+}
+
+
+
+@mixin make-sprites($names, $sprite-image, $sprite-size: 24px) {
+
+  @for $i from 1 through length($names) {
+
+    $current-sprite: nth($names, $i);
+
+    .icon-sprite-#{$current-sprite}{
+      width: $sprite-size;
+      height: $sprite-size;
+      background-image: $sprite-image;
+      background-size: $sprite-size $sprite-size;
+      background-repeat: no-repeat;
+      background-position: $sprite-size * $i 0;
+    }
+  }
+
+}
+
+$sprite-names: mario luigi peach toad;
+$mario-sprite-image: url(/images/icons/mario-sprite.png);
+
+@include make-sprites($sprite-names, $mario-sprite-image);
